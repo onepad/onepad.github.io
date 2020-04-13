@@ -60,10 +60,77 @@
         //// Create CodeMirror (with lineWrapping on).
         var codeMirror = CodeMirror(document.getElementById('firepad-container'), {lineWrapping: true});
         codeMirror.focus();
-        codeMirror.on("beforeChange", function(instance, changesObj) {
-            console.log(instance);
-            console.log(changesObj);
-            // https://github.com/codemirror/CodeMirror/issues/3894
+        codeMirror.on("beforeChange", function (cm, change) {
+            console.log(change);
+
+            var oldContent = cm.getValue();
+            var newContent = "";
+
+            // Split lines
+            var lines = oldContent.split('\n');
+
+            if (change.origin == "+delete") {
+
+                // Change is only inline
+                if (change.from.line == change.to.line) {
+
+                    // Modify the line
+                    lines[change.from.line] = lines[change.from.line].substr(0, change.from.ch) + lines[change.from.line].substr(change.to.ch + 1, lines[change.from.line].length);
+
+                    // Concat new content
+                    lines.map(function (line) {
+                        newContent += line + "\n";
+                    });
+                }
+                // Change over min. 2 lines
+                else {
+                    var newLines = [];
+                    for (var i = 0; i < lines.length; i++) {
+
+                        if (i < change.from.line || i > change.to.line) {
+                            newLines.push(lines[i]);
+                        } else if (i == change.from.line) {
+                            newLines.push(lines[i].substr(0, change.from.ch));
+                        } else if (i == change.to.line) {
+                            newLines.push(lines[i].substr(change.to.ch, lines[i].length));
+                        }
+                    }
+
+                    // Concat new content
+                    newLines.map(function (line) {
+                        newContent += line + "\n";
+                    });
+                }
+            } else if (change.origin == "+input") {
+
+                // Modify the line
+                lines[change.from.line] = [lines[change.from.line].slice(0, change.from.ch), change.text[0], lines[change.from.line].slice(change.to.ch)].join('');
+
+                // Concat new content
+                lines.map(function (line) {
+                    newContent += line + "\n";
+                });
+
+            } else if (change.origin == "paste") {
+                // Create content to paste
+                var pasteContent = "";
+                change.text.map(function (line) {
+                    pasteContent += line + "\n"
+                });
+
+                // Modify the line
+                lines[change.from.line] = [lines[change.from.line].slice(0, change.from.ch), pasteContent, lines[change.from.line].slice(change.to.ch)].join('');
+
+                // Concat new content
+                lines.map(function (line) {
+                    newContent += line + "\n";
+                });
+            }
+            console.clear();
+            console.log("****** old content**********************");
+            console.log(oldContent);
+            console.log("****** new content**********************");
+            console.log(newContent);
         });
         //// Create Firepad (with rich text toolbar and shortcuts enabled).
         var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
