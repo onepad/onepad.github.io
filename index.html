@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <script src="jquery-3.5.0.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
     <!-- Cookie -->
     <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.js"></script>-->
     <script src="js.cookie.js"></script>
@@ -50,14 +50,7 @@
         //// Initialize Firebase.
         //// TODO: replace with your Firebase project configuration.
         // load config from cookie
-        var config = Cookies.getJSON("fconf");
-        if (config == undefined || config.apiKey == undefined || config.apiKey != "") {
-            console.log("using saved config");
-            config = defaultconfig
-        } else {
-            console.log("using default config");
-        }
-        console.log(config);
+        var config = getConfig();
 
         firebase.initializeApp(config);
 
@@ -66,47 +59,38 @@
 
         //// Create CodeMirror (with lineWrapping on).
         var codeMirror = CodeMirror(document.getElementById('firepad-container'), {lineWrapping: true});
-
+        codeMirror.focus();
         //// Create Firepad (with rich text toolbar and shortcuts enabled).
         var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
             {richTextToolbar: true, richTextShortcuts: true});
 
         //// Initialize contents.
         firepad.on('ready', function () {
-            $("#firepad-container .firepad-toolbar-wrapper").append("<div class=\"firepad-btn-group\"><a class=\"firepad-btn\"><span class=\"firepad-tb-setconfig\"><a href=\"#setApiForm\" rel=\"modal:open\">Config</a></span></a></div>")
             // do nothing
+            codeMirror.focus();
         });
-    }
 
-    // Helper to get hash from end of URL or generate a random one.
-    function getExampleRef() {
-        var ref = firebase.database().ref();
-        var hash = window.location.hash.replace(/#/g, '');
-        if (hash) {
-            ref = ref.child(hash);
-        } else {
-            ref = ref.push(); // generate unique location.
-            window.location = window.location + '#' + ref.key; // add it as a hash to the URL.
-        }
-        if (typeof console !== 'undefined') {
-            console.log('Firebase data: ', ref.toString());
-        }
-        return ref;
+        $('#setApiForm').on($.modal.BEFORE_OPEN, function (event, modal) {
+            var config = getConfig();
+            $("#currentapikey").text(config.apiKey);
+            $("#currentdburl").text(config.databaseURL)
+        });
     }
 </script>
 <!-- Modal HTML embedded directly into document -->
 <div id="setApiForm" class="modal">
-    <p>set firebase api key.</p>
-    <label>api key:
-        <input type="text" />
-    </label>
-    <label>databaseURL:
-        <input type="text" />
-    </label>
-    <a href="#" rel="modal:close">Close</a>
+    <p>Custom firebase api key.</p>
+    <p><label>api key:
+        <input type="text" id="setapiapikey"/>
+    </label></p>
+    <p><label>db url:
+        <input type="text" id="setapidatabaseurl"/>
+    </label></p>
+    <p>current config:</p>
+    <p>api key: <span id="currentapikey" style="font-weight: bold"></span></p>
+    <p>db url: <span id="currentdburl" style="font-weight: bold"></span></p>
+    <button type="submit" onclick="submitConfig()">SAVE</button>
+    <p><a href="#" rel="modal:close">Close</a></p>
 </div>
-
-<!-- Link to open the modal -->
-<p><a href="#setApiForm" rel="modal:open">Open Modal</a></p>
 </body>
 </html>
