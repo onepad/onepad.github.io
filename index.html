@@ -5,6 +5,8 @@
 <head>
     <meta charset="utf-8"/>
     <script src="jquery-3.5.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
     <!-- Cookie -->
     <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.js"></script>-->
     <script src="js.cookie.js"></script>
@@ -71,7 +73,7 @@
 
         //// Initialize contents.
         firepad.on('ready', function () {
-            $("#firepad-container .firepad-toolbar-wrapper").append("<div class=\"firepad-btn-group\"><a class=\"firepad-btn\"><span onclick='btnConfig()' class=\"firepad-tb-setconfig\">CF</span></a></div>")
+            $("#firepad-container .firepad-toolbar-wrapper").append("<div class=\"firepad-btn-group\"><a class=\"firepad-btn\"><span class=\"firepad-tb-setconfig\"><a href=\"#setApiForm\" rel=\"modal:open\">Config</a></span></a></div>")
             // do nothing
         });
     }
@@ -92,5 +94,19 @@
         return ref;
     }
 </script>
+<!-- Modal HTML embedded directly into document -->
+<div id="setApiForm" class="modal">
+    <p>set firebase api key.</p>
+    <label>api key:
+        <input type="text" />
+    </label>
+    <label>databaseURL:
+        <input type="text" />
+    </label>
+    <a href="#" rel="modal:close">Close</a>
+</div>
+
+<!-- Link to open the modal -->
+<p><a href="#setApiForm" rel="modal:open">Open Modal</a></p>
 </body>
 </html>
