@@ -4,6 +4,10 @@
 
 <head>
     <meta charset="utf-8"/>
+    <script src="jquery-3.5.0.js"></script>
+    <!-- Cookie -->
+    <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.js"></script>-->
+    <script src="js.cookie.js"></script>
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
 
@@ -15,6 +19,7 @@
     <link rel="stylesheet" href="https://firepad.io/releases/v1.5.9/firepad.css"/>
     <script src="https://firepad.io/releases/v1.5.9/firepad.min.js"></script>
 
+    <script src="app.js"></script>
     <style>
         html {
             height: 100%;
@@ -42,11 +47,16 @@
     function init() {
         //// Initialize Firebase.
         //// TODO: replace with your Firebase project configuration.
-        var config = {
-            apiKey: 'AIzaSyAAjpX__jctYv_EB0DLr07zZN9u0Z5IBMA',
-            authDomain: "onepad.github.io",
-            databaseURL: "https://onepadeditor.firebaseio.com"
-        };
+        // load config from cookie
+        var config = Cookies.getJSON("fconf");
+        if (config == undefined || config.apiKey == undefined || config.apiKey != "") {
+            console.log("using saved config");
+            config = defaultconfig
+        } else {
+            console.log("using default config");
+        }
+        console.log(config);
+
         firebase.initializeApp(config);
 
         //// Get Firebase Database reference.
@@ -61,6 +71,7 @@
 
         //// Initialize contents.
         firepad.on('ready', function () {
+            $("#firepad-container .firepad-toolbar-wrapper").append("<div class=\"firepad-btn-group\"><a class=\"firepad-btn\"><span onclick='btnConfig()' class=\"firepad-tb-setconfig\">CF</span></a></div>")
             // do nothing
         });
     }
