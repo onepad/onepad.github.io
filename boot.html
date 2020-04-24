@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <title>Dashboard Template · Bootstrap</title>
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.css"/>
+    <link rel="stylesheet" href="https://firepad.io/releases/v1.5.9/firepad.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
+    <link rel="stylesheet" href="firepad-userlist.css"/>
+    <meta name="theme-color" content="#563d7c">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="app.css" rel="stylesheet">
+</head>
+<body onload="onReady();">
+<nav class="navbar fixed-top bg-dark flex-md-nowrap p-0">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">One Pad</a>
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" href="#">Sign out</a>
+        </li>
+    </ul>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-1 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <span data-feather="home"></span>
+                            Dashboard <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-11 ml-sm-auto px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div id="firepad"></div>
+            </div>
+        </main>
+    </div>
+</div>
+<!-- Jquery -->
+<script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.js"></script>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/7.6.2/firebase.js"></script>
+
+<!-- CodeMirror -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.js"></script>
+
+<!-- Firepad -->
+<script src="https://firepad.io/releases/v1.5.9/firepad.min.js"></script>
+
+<script type="text/javascript" src="firepad-userlist.js"></script>
+<script type="text/javascript" src="app.js"></script>
+
+<script type="text/javascript">
+    function displayPads() {
+        $('#my-pads-list').toggle();
+    }
+</script>
+<!-- Modal HTML embedded directly into document -->
+<div id="setApiForm" class="modal">
+    <p>Custom firebase api key.</p>
+    <p><label>api key:
+        <input type="text" id="setapiapikey"/>
+    </label></p>
+    <p><label>db url:
+        <input type="text" id="setapidatabaseurl"/>
+    </label></p>
+    <p>current config:</p>
+    <p>api key: <span id="currentapikey" style="font-weight: bold"></span></p>
+    <p>db url: <span id="currentdburl" style="font-weight: bold"></span></p>
+    <p>
+        <button type="submit" onclick="submitConfig()">SAVE</button>
+        <span><a href="#" rel="modal:close"><button type="button">CLOSE</button></a></span>
+        <span><a href="#" rel="modal:close"><button type="button"
+                                                    onclick="resetConfig();">RESET DEFAULT</button></a></span>
+    </p>
+</div>
+</body>
+</html>
