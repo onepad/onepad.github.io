@@ -39,27 +39,30 @@
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">One Pad</a>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-            <a class="nav-link" href="#">Sign out</a>
+            <a onclick="displayPads()" id="my-pads" class="nav-link sprite-btn">NEW PAD</a>
+            <div id="my-pads-list">
+            </div>
         </li>
     </ul>
 </nav>
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-1 d-none d-md-block bg-light sidebar">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <span data-feather="home"></span>
-                            Dashboard <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
+                <div id="firepad-userlist"></div>
+<!--                <ul class="nav flex-column" id="firepad-userlist">-->
+<!--&lt;!&ndash;                    <li class="nav-item">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <a class="nav-link active" href="#">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <span data-feather="home"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                            Dashboard <span class="sr-only">(current)</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </a>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
 
-                </ul>
+<!--                </ul>-->
             </div>
         </nav>
 
-        <main role="main" class="col-md-11 ml-sm-auto px-4">
+        <main role="main" class="col-md-10 ml-sm-auto px-2">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <div id="firepad"></div>
             </div>

@@ -35,13 +35,13 @@ var FirepadUserList = (function() {
   };
 
   FirepadUserList.prototype.makeUserList_ = function() {
-    return elt('div', [
+    return elt('ul', [
       this.makeHeading_(),
-      elt('div', [
+      elt('li', [
         this.makeUserEntryForSelf_(),
         this.makeUserEntriesForOthers_()
-      ], {'class': 'firepad-userlist-users' })
-    ], {'class': 'firepad-userlist' });
+      ], {'class': 'firepad-userlist-users nav-item mt-2' })
+    ], {'class': 'firepad-userlist nav flex-column' });
   };
 
   FirepadUserList.prototype.makeHeading_ = function() {
@@ -50,11 +50,11 @@ var FirepadUserList = (function() {
       setTextContent(counterSpan, "" + usersSnapshot.numChildren());
     });
 
-    return elt('div', [
+    return elt('li', [
       elt('span', 'ONLINE ('),
       counterSpan,
       elt('span', ')')
-    ], { 'class': 'firepad-userlist-heading' });
+    ], { 'class': 'firepad-userlist-heading nav-item' });
   };
 
   FirepadUserList.prototype.makeUserEntryForSelf_ = function() {

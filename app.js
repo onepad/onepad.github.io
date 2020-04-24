@@ -94,11 +94,13 @@ function joinFirepadForHash() {
 
     firepad.on('ready', function () {
         console.log("firepad ready");
+        codeMirror.focus();
         ensurePadInList(id);
         buildPadList();
     });
 
     codeMirror.focus();
+
 
     window.location = url;
     $('#url').val(url);
