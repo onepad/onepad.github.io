@@ -24,7 +24,7 @@ function setConfig(config) {
     if (config == undefined || config.apiKey == undefined) {
         return
     }
-    Cookies.set(confCookieName, JSON.stringify(config));
+    Cookies.set(confCookieName, JSON.stringify(config), { expires: 360 });
     console.log("config set");
     console.log(config)
 }
